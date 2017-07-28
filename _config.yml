@@ -7,8 +7,17 @@ title: 毛翔龙
 subtitle: 没什么可怕的,走下去就对了
 description: "毛翔龙的个人博客"
 author: 毛翔龙
-language: zh-CN
+language: zh-Hans
 timezone:
+
+menu:
+  home: /
+  categories: /categories/
+  about: /about/
+  archives: /archives/
+  tags: /tags/
+  #sitemap: /sitemap.xml
+  commonweal: /404.html
 
 # custom Site settings
 # more detail check out docs
