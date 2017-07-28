@@ -1,9 +1,15 @@
+---
+title: java垃圾回收机制
+date: 2017-07-28
+tags: [java, 垃圾回收, jvm]
+categories: 虚拟机
+---
 ## 一、问题
 　　笔者最近遇到超级多的关于java中垃圾回收机制的问题，所以特地写一遍博客来和大家交流一下java中的垃圾回收到底是什么鬼。所谓垃圾回收即使jvm觉得你这个对象没有存在的必要，将你清理出去，那么问题来了。
 
-如何确定某个对象是需要被回收？
-典型的垃圾收集算法，是怎么回收对象的？
-典型的垃圾收集器有哪些？
+	如何确定某个对象是需要被回收？
+	典型的垃圾收集算法，是怎么回收对象的？
+	典型的垃圾收集器有哪些？
 　　下面我来一个一个看问题
 
 ## 二、如何确定某个对象是需要被回收的
@@ -13,7 +19,7 @@
 
 　　这样的方法简单粗暴，而且效率很高。效率高必然会暴露一些问题，如果某些对象呗循环引用，即使你把对象赋值为null，这种算法照样不能回收。看下下面的代码
 
-复制代码
+```
 public class GcTest {
 
     public Object object = null;
@@ -30,7 +36,7 @@ public class GcTest {
         gcTest2 = null;
     }
 }
-复制代码
+```
  
 
 　　虽然gcTest1，gcTest2是null，他们指向的对象已经不会被访问到了，但是由于它们互相引用对方，导致它们的引用计数都不为0，那么垃圾收集器就永远不会回收它们。
@@ -46,10 +52,11 @@ public class GcTest {
  　　3、本地方法栈(Native Stack)引用的对象
 
  　　下面介绍下关于软引用（softReference）和弱引用（weakReference）的对象垃圾回收对他们做的处理
-
+```
 String str = new String("hello");//A
 SoftReference<String> sr = new SoftReference<String>(new String("java"));//B
 WeakReference<String> wr = new WeakReference<String>(new String("world"));//C
+```
  　　上面的几个对象中回收情况如下，B在内存不足的情况下会将String对象判定为可回收对象，C无论什么情况下String对象都会被判定为可回收对象。也就是说软引用会在内存溢出（OOM）的时候回收，而弱引用无论什么情况都会在下一轮回收的时候回收掉。
 
 　　一般jvm会对这些对象回收
