@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 毛翔龙
+title: Kelly.Mao's Blog
 subtitle: 没什么可怕的,走下去就对了
 description: "毛翔龙的个人博客"
 author: 毛翔龙
 language: zh-Hans
-timezone:
+timezone: Asia/Shanghai
 
 menu:
   home: /
@@ -17,7 +17,7 @@ menu:
   archives: /archives/
   tags: /tags/
   #sitemap: /sitemap.xml
-  commonweal: /404.html
+  #commonweal: /404.html
 
 # custom Site settings
 # more detail check out docs
@@ -93,7 +93,7 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 10
+  per_page: 5
   order_by: -date
   
 # Category & Tag
