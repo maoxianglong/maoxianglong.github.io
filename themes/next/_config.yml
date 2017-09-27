@@ -614,6 +614,9 @@ vendors:
   # https://github.com/ethantw/Han
   han:
 
+reward_comment: 扫一扫添加微信好友~~
+wechatpay: /images/wechat.jpg
+#alipay: /images/alipay.jpg
 
 # Assets
 css: css
@@ -622,3 +625,9 @@ images: images
 
 # Theme version
 version: 5.1.1
+
+#wechat_subscriber:
+#  enabled: true
+#  qcode: /images/wechat.jpg #微信二维码图片路径
+#  description: 扫一扫添加微信好友 #微信二维码描述
+  
