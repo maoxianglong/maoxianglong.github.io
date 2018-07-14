@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="消息服务," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="导论记录一下阿里云消息服务与Spring的整合，以及ProducerId与ConsumerId的管理，其他的消息服务也是类似（RocketMQ、Kafka），阿里云消息服务性能还是很可观的，虽然收费，单也推荐使用。 整合消息服务的概念就不想多说了，需要的可以去看官方文档，参考文档。 创建topic首先创建topic，如下图填好信息就OK了。  创建成功之后是这样  ProducerId的创建 Co">
+<meta name="keywords" content="消息服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云MQ与Spring整合">
+<meta property="og:url" content="http://maoxianglong.github.io/2017/11/24/阿里云MQ与Spring整合/index.html">
+<meta property="og:site_name" content="犟驴">
+<meta property="og:description" content="导论记录一下阿里云消息服务与Spring的整合，以及ProducerId与ConsumerId的管理，其他的消息服务也是类似（RocketMQ、Kafka），阿里云消息服务性能还是很可观的，虽然收费，单也推荐使用。 整合消息服务的概念就不想多说了，需要的可以去看官方文档，参考文档。 创建topic首先创建topic，如下图填好信息就OK了。  创建成功之后是这样  ProducerId的创建 Co">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE1.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE2.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE3.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE%E5%9B%9B.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE%E4%BA%94.png">
+<meta property="og:updated_time" content="2018-07-14T06:04:40.637Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里云MQ与Spring整合">
+<meta name="twitter:description" content="导论记录一下阿里云消息服务与Spring的整合，以及ProducerId与ConsumerId的管理，其他的消息服务也是类似（RocketMQ、Kafka），阿里云消息服务性能还是很可观的，虽然收费，单也推荐使用。 整合消息服务的概念就不想多说了，需要的可以去看官方文档，参考文档。 创建topic首先创建topic，如下图填好信息就OK了。  创建成功之后是这样  ProducerId的创建 Co">
+<meta name="twitter:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maoxianglong.github.io/2017/11/24/阿里云MQ与Spring整合/"/>
+
+
+
+
+
+  <title>阿里云MQ与Spring整合 | 犟驴</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/maoxianglong"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">犟驴</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">去他妈的现实</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2017/11/24/阿里云MQ与Spring整合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="毛翔龙">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="犟驴">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">阿里云MQ与Spring整合</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-24T00:00:00+08:00">
+                2017-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/消息服务/" itemprop="url" rel="index">
+                    <span itemprop="name">消息服务</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="导论"><a href="#导论" class="headerlink" title="导论"></a>导论</h5><p>记录一下阿里云消息服务与Spring的整合，以及ProducerId与ConsumerId的管理，其他的消息服务也是类似（RocketMQ、Kafka），阿里云消息服务性能还是很可观的，虽然收费，单也推荐使用。</p>
+<h5 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h5><p>消息服务的概念就不想多说了，需要的可以去看官方文档，<a href="https://help.aliyun.com/product/29530.html?spm=5176.doc29532.3.1.GGkAkd" target="_blank" rel="noopener">参考文档</a>。</p>
+<h6 id="创建topic"><a href="#创建topic" class="headerlink" title="创建topic"></a>创建topic</h6><p>首先创建topic，如下图填好信息就OK了。</p>
+<p><img src="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE1.png" alt="图一"></p>
+<p>创建成功之后是这样</p>
+<p><img src="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE2.png" alt="图二"></p>
+<h6 id="ProducerId的创建"><a href="#ProducerId的创建" class="headerlink" title="ProducerId的创建"></a>ProducerId的创建</h6><p><img src="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE3.png" alt="图三"></p>
+<h6 id="ConsumerId的创建"><a href="#ConsumerId的创建" class="headerlink" title="ConsumerId的创建"></a>ConsumerId的创建</h6><p><img src="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE%E5%9B%9B.png" alt="图四"></p>
+<h6 id="整合spring"><a href="#整合spring" class="headerlink" title="整合spring"></a>整合spring</h6><p>上面那些步骤信息填完整之后topic、ProducerId、ConsumerId都创建好了就可以使用消息队列了</p>
+<p>Producer的整合<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;producer&quot; class=&quot;com.aliyun.openservices.ons.api.bean.ProducerBean&quot; init-method=&quot;start&quot;</span><br><span class="line">        destroy-method=&quot;shutdown&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;properties&quot;&gt; &lt;!--生产者配置信息--&gt;</span><br><span class="line">          &lt;props&gt;</span><br><span class="line">          	&lt;!-- 生成者ID，需要提前在阿里云创建  --&gt;</span><br><span class="line">              &lt;prop key=&quot;ProducerId&quot;&gt;PID-SIT-TransitHub-NotifyUnbind&lt;/prop&gt; &lt;!--请替换为自己的账户信息--&gt;</span><br><span class="line">              &lt;!-- AccessKey、SecretKey由阿里云分配 --&gt;</span><br><span class="line">              &lt;prop key=&quot;AccessKey&quot;&gt;LTAIqfzogBNFeohh11&lt;/prop&gt;</span><br><span class="line">              &lt;prop key=&quot;SecretKey&quot;&gt;zoahuhZKscEk5Q8Qtr&lt;/prop&gt;</span><br><span class="line">              &lt;!-- 根据自己服务器选择不同的tcp接入url,此处选择公网 --&gt;</span><br><span class="line">              &lt;prop key=&quot;ONSAddr&quot;&gt;http://onsaddr-internet.aliyun.com/rocketmq/nsaddr4client-internet&lt;/prop&gt;</span><br><span class="line">          &lt;/props&gt;</span><br><span class="line">      &lt;/property&gt;</span><br><span class="line">  &lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Consumer的整合<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 创建Listener将消费者处于阻塞状态，只要有自己topic订阅的消息发布消息马上就会订阅到--&gt;</span><br><span class="line">&lt;bean id=&quot;tsmDeleteAidMsgListener&quot; class=&quot;com.snowball.hub.msg.DataMessageListener&quot; /&gt; Listener配置</span><br><span class="line">&lt;bean id=&quot;consumer&quot; class=&quot;com.aliyun.openservices.ons.api.bean.ConsumerBean&quot;</span><br><span class="line">	init-method=&quot;start&quot; destroy-method=&quot;shutdown&quot;&gt;</span><br><span class="line">	&lt;property name=&quot;properties&quot;&gt;</span><br><span class="line">		&lt;props&gt;</span><br><span class="line">			&lt;prop key=&quot;ConsumerId&quot;&gt;CID-SIT-OPS-NotifyUnbind&lt;/prop&gt; </span><br><span class="line">			&lt;prop key=&quot;AccessKey&quot;&gt;$&#123;access_key&#125;&lt;/prop&gt;</span><br><span class="line">			&lt;prop key=&quot;SecretKey&quot;&gt;$&#123;secret_key&#125;&lt;/prop&gt;</span><br><span class="line">			&lt;!--将消费者线程数固定为50个,该线程不会和主业务线程耦合--&gt;</span><br><span class="line">			&lt;prop key=&quot;ConsumeThreadNums&quot;&gt;50&lt;/prop&gt;</span><br><span class="line">		&lt;/props&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">	&lt;property name=&quot;subscriptionTable&quot;&gt;</span><br><span class="line">		&lt;map&gt;</span><br><span class="line">			&lt;entry value-ref=&quot;tsmDeleteAidMsgListener&quot;&gt;</span><br><span class="line">				&lt;key&gt;</span><br><span class="line">					&lt;bean class=&quot;com.aliyun.openservices.ons.api.bean.Subscription&quot;&gt;</span><br><span class="line">						&lt;!-- 此处填将之前创建的topic --&gt;</span><br><span class="line">						&lt;property name=&quot;topic&quot; value=&quot;snb-test-topic4&quot; /&gt;</span><br><span class="line">						&lt;property name=&quot;expression&quot; value=&quot;*&quot; /&gt;</span><br><span class="line">						&lt;!--</span><br><span class="line">						expression即Tag，可以设置成具体的Tag，如 taga||tagb||tagc，也可设置成*。 *仅代表订阅所有Tag，不支持通配</span><br><span class="line">						--&gt;</span><br><span class="line">					&lt;/bean&gt;</span><br><span class="line">				&lt;/key&gt;</span><br><span class="line">			&lt;/entry&gt;</span><br><span class="line">			更多的订阅添加entry节点即可</span><br><span class="line">		&lt;/map&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Consumer的整合和Producer基本一致，不同的是需要创建一个Listener,作用已经在注释中说明。</p>
+<h5 id="使用阿里云sdk发布和订阅消息"><a href="#使用阿里云sdk发布和订阅消息" class="headerlink" title="使用阿里云sdk发布和订阅消息"></a>使用阿里云sdk发布和订阅消息</h5><p>上面只是整合了普通消息，阿里云MQ消息分很四种，每一种的整合API都不一样，具体整合细节可以参考文章开始出的参考文档。</p>
+<h6 id="发布消息"><a href="#发布消息" class="headerlink" title="发布消息"></a>发布消息</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">public class ProducerTest &#123;</span><br><span class="line">    </span><br><span class="line">    //如果和spring整合了，那就直接注入就好了，本次使用传统的发布方式</span><br><span class="line">    //@Autowired</span><br><span class="line">	//private Producer producer;</span><br><span class="line">	</span><br><span class="line">	//topic的管理最好做成可配置，可以对应不同的环境管理不同的topic，本次还是使用传统的//方式发布</span><br><span class="line">	//@Value(&quot;#&#123;configProperties[&apos;send_unbind_topic&apos;]&#125;&quot;)</span><br><span class="line">	//private String send_unbind_topic;</span><br><span class="line"></span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">     Properties properties = new Properties();</span><br><span class="line">     // 您在MQ控制台创建的Producer ID</span><br><span class="line">     properties.put(PropertyKeyConst.ProducerId, &quot;XXX&quot;);</span><br><span class="line">     // 鉴权用AccessKey，在阿里云服务器管理控制台创建</span><br><span class="line">     properties.put(PropertyKeyConst.AccessKey,&quot;XXX&quot;);</span><br><span class="line">     // 鉴权用SecretKey，在阿里云服务器管理控制台创建</span><br><span class="line">     properties.put(PropertyKeyConst.SecretKey, &quot;XXX&quot;);</span><br><span class="line">     // 设置 TCP 接入域名（此处以公共云的公网接入为例）</span><br><span class="line">     properties.put(PropertyKeyConst.ONSAddr,</span><br><span class="line">       &quot;http://onsaddr-internet.aliyun.com/rocketmq/nsaddr4client-internet&quot;);</span><br><span class="line"></span><br><span class="line">     Producer producer = ONSFactory.createProducer(properties);</span><br><span class="line">     // 在发送消息前，必须调用start方法来启动Producer，只需调用一次即可</span><br><span class="line">     producer.start();</span><br><span class="line"></span><br><span class="line">     //循环发送消息</span><br><span class="line">     while(true)&#123;</span><br><span class="line">         Message msg = new Message( //</span><br><span class="line">             // 在控制台创建的Topic，即该消息所属的Topic名称</span><br><span class="line">             &quot;TopicTestMQ&quot;,</span><br><span class="line">             // Message Tag,</span><br><span class="line">             // 可理解为Gmail中的标签，对消息进行再归类，方便Consumer指定过滤条件在MQ服务器过滤</span><br><span class="line">             &quot;TagA&quot;,</span><br><span class="line">             // Message Body</span><br><span class="line">             // 任何二进制形式的数据， MQ不做任何干预，</span><br><span class="line">             // 需要Producer与Consumer协商好一致的序列化和反序列化方式</span><br><span class="line">             &quot;Hello MQ&quot;.getBytes());</span><br><span class="line">         // 设置代表消息的业务关键属性，请尽可能全局唯一，以方便您在无法正常收到消息情况下，可通过MQ控制台查询消息并补发</span><br><span class="line">         // 注意：不设置也不会影响消息正常收发</span><br><span class="line">         msg.setKey(&quot;ORDERID_100&quot;);</span><br><span class="line">         // 发送消息，只要不抛异常就是成功</span><br><span class="line">         // 打印Message ID，以便用于消息发送状态查询</span><br><span class="line">         SendResult sendResult = producer.send(msg);</span><br><span class="line">         System.out.println(&quot;Send Message success. Message ID is: &quot; + sendResult.getMessageId());</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     // 在应用退出前，可以销毁Producer对象</span><br><span class="line">     // 注意：如果不销毁也没有问题</span><br><span class="line">     producer.shutdown();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消息发布成功可以看到sendResult是这样的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;messageId&quot;:&quot;0200010546D011E87BD078ACF4180003&quot;,&quot;topic&quot;:&quot;TPC-SIT-COM-TransitHub-NotifyUnbind&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据messageId可以定位这条消息的轨迹，可以很清晰的定位消息的消费轨迹。<br><img src="http://otqvaruzt.bkt.clouddn.com/%E5%9B%BE%E4%BA%94.png" alt="图五"></p>
+<h6 id="订阅消息"><a href="#订阅消息" class="headerlink" title="订阅消息"></a>订阅消息</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class ConsumerTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Properties properties = new Properties();</span><br><span class="line">        // 您在MQ控制台创建的Consumer ID</span><br><span class="line">        properties.put(PropertyKeyConst.ConsumerId, &quot;XXX&quot;);</span><br><span class="line">        // 鉴权用AccessKey，在阿里云服务器管理控制台创建</span><br><span class="line">        properties.put(PropertyKeyConst.AccessKey, &quot;XXX&quot;);</span><br><span class="line">        // 鉴权用SecretKey，在阿里云服务器管理控制台创建</span><br><span class="line">        properties.put(PropertyKeyConst.SecretKey, &quot;XXX&quot;);</span><br><span class="line">        // 设置 TCP 接入域名（此处以公共云公网环境接入为例）</span><br><span class="line">        properties.put(PropertyKeyConst.ONSAddr,</span><br><span class="line">          &quot;http://onsaddr-internet.aliyun.com/rocketmq/nsaddr4client-internet&quot;);</span><br><span class="line"></span><br><span class="line">        Consumer consumer = ONSFactory.createConsumer(properties);</span><br><span class="line">        //这个Listener如果之前已经在spring容器中注册过直接使用就好了，这里就不演示了</span><br><span class="line">        consumer.subscribe(&quot;TopicTestMQ&quot;, &quot;*&quot;, new MessageListener() &#123;</span><br><span class="line">            public Action consume(Message message, ConsumeContext context) &#123;</span><br><span class="line">                System.out.println(&quot;Receive: &quot; + message);</span><br><span class="line">                return Action.CommitMessage;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        consumer.start();</span><br><span class="line">        System.out.println(&quot;Consumer Started&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消息的发布与订阅就这么多，要使用消息服务总结起来就四步。</p>
+<ol>
+<li>开通服务</li>
+<li>申请资源</li>
+<li>发布消息</li>
+<li>订阅消息</li>
+</ol>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>消息的产品很多，阿里云的消息服务是目前互联网公司使用占比很大的，本次只是很简单介绍消息服务的使用，具体实现细节笔者也在学习中。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>扫一扫添加微信好友~~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.jpg" alt="毛翔龙 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/消息服务/" rel="tag"><i class="fa fa-tag"></i> 消息服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/25/IntelliJ IDEA配置maven/" rel="next" title="IntelliJ IDEA配置maven">
+                <i class="fa fa-chevron-left"></i> IntelliJ IDEA配置maven
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/19/使用令牌桶实现限流/" rel="prev" title="使用令牌桶实现限流(内容部分来自网络)">
+                使用令牌桶实现限流(内容部分来自网络) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="毛翔龙" />
+          <p class="site-author-name" itemprop="name">毛翔龙</p>
+           
+              <p class="site-description motion-element" itemprop="description">所谓人生 便是取决于遇见谁</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#导论"><span class="nav-number">1.</span> <span class="nav-text">导论</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#整合"><span class="nav-number">2.</span> <span class="nav-text">整合</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#创建topic"><span class="nav-number">2.1.</span> <span class="nav-text">创建topic</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ProducerId的创建"><span class="nav-number">2.2.</span> <span class="nav-text">ProducerId的创建</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ConsumerId的创建"><span class="nav-number">2.3.</span> <span class="nav-text">ConsumerId的创建</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#整合spring"><span class="nav-number">2.4.</span> <span class="nav-text">整合spring</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用阿里云sdk发布和订阅消息"><span class="nav-number">3.</span> <span class="nav-text">使用阿里云sdk发布和订阅消息</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#发布消息"><span class="nav-number">3.1.</span> <span class="nav-text">发布消息</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#订阅消息"><span class="nav-number">3.2.</span> <span class="nav-text">订阅消息</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">毛翔龙</span>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>

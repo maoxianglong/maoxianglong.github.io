@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="架构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="导论如果有人让你介绍你们做的系统架构是什么样子的 你会从哪说起？ 每个人都会有自己的架构认知，根据自己的接触的内容来总结。系统分为用户中心、营销中心、商品中心…… 这是产品经理说的；我们的系统用了三层架构，用了SSM框架…… 这是程序员说的；用户说 我们系统有后台，前台，商品上下架功能，用户管理功能。 在实际工作中架构师架构出来的系统不仅要考虑用户的功能实现，而且也要平衡系统的易用性、高性能、扩展">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="该怎么向别人介绍你们的系统架构？">
+<meta property="og:url" content="http://maoxianglong.github.io/2018/04/17/该怎么向别人介绍你们的系统架构？/index.html">
+<meta property="og:site_name" content="犟驴">
+<meta property="og:description" content="导论如果有人让你介绍你们做的系统架构是什么样子的 你会从哪说起？ 每个人都会有自己的架构认知，根据自己的接触的内容来总结。系统分为用户中心、营销中心、商品中心…… 这是产品经理说的；我们的系统用了三层架构，用了SSM框架…… 这是程序员说的；用户说 我们系统有后台，前台，商品上下架功能，用户管理功能。 在实际工作中架构师架构出来的系统不仅要考虑用户的功能实现，而且也要平衡系统的易用性、高性能、扩展">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180417150210.jpg">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180417150345.jpg">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180417150554.jpg">
+<meta property="og:updated_time" content="2018-07-14T06:04:40.634Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="该怎么向别人介绍你们的系统架构？">
+<meta name="twitter:description" content="导论如果有人让你介绍你们做的系统架构是什么样子的 你会从哪说起？ 每个人都会有自己的架构认知，根据自己的接触的内容来总结。系统分为用户中心、营销中心、商品中心…… 这是产品经理说的；我们的系统用了三层架构，用了SSM框架…… 这是程序员说的；用户说 我们系统有后台，前台，商品上下架功能，用户管理功能。 在实际工作中架构师架构出来的系统不仅要考虑用户的功能实现，而且也要平衡系统的易用性、高性能、扩展">
+<meta name="twitter:image" content="http://otqvaruzt.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180417150210.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://maoxianglong.github.io/2018/04/17/该怎么向别人介绍你们的系统架构？/"/>
+
+
+
+
+
+  <title>该怎么向别人介绍你们的系统架构？ | 犟驴</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/maoxianglong"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">犟驴</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">去他妈的现实</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2018/04/17/该怎么向别人介绍你们的系统架构？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="毛翔龙">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="犟驴">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">该怎么向别人介绍你们的系统架构？</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T00:00:00+08:00">
+                2018-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/架构/" itemprop="url" rel="index">
+                    <span itemprop="name">架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="导论"><a href="#导论" class="headerlink" title="导论"></a>导论</h4><p>如果有人让你介绍你们做的系统架构是什么样子的 你会从哪说起？</p>
+<p>每个人都会有自己的架构认知，根据自己的接触的内容来总结。系统分为用户中心、营销中心、商品中心…… 这是产品经理说的；我们的系统用了三层架构，用了SSM框架…… 这是程序员说的；用户说 我们系统有后台，前台，商品上下架功能，用户管理功能。</p>
+<p>在实际工作中架构师架构出来的系统不仅要考虑用户的功能实现，而且也要平衡系统的易用性、高性能、扩展性、可伸缩性等方面，这里面是要综合业务目标、当前开发人数、开发人员的综合能力、上线时间、项目预算等来选择开发语言、开发框架和功能开发的顺序。有些公司求时间、有些公司求质量，但最终说明架构是实时变化的，不是一上来就来个完美的架构，是要根据当前的业务需求变化的，但你的架构必须要支持这种变化 达到上面所说的要求。</p>
+<p>一个复杂的系统需要不同角色的人来参与，因此架构师必须考虑到让不同的参与者理解你的架构 知道他们自己该做什么事，如用户为你提供原始需求，项目经理需要制定计划 在不同小组间沟通 落地你的架构，开发人员拿到你的设计实现功能。所以架构涵盖的内容和决策太多了，需要从不同视角分别设计 ，也是为了架构方便理解、交流和归档的方便。</p>
+<h3 id="逻辑架构和物理架构视图"><a href="#逻辑架构和物理架构视图" class="headerlink" title="逻辑架构和物理架构视图"></a>逻辑架构和物理架构视图</h3><h4 id="逻辑架构"><a href="#逻辑架构" class="headerlink" title="逻辑架构"></a>逻辑架构</h4><p>逻辑架构规定了由哪些逻辑元素组成以及这些逻辑元素间的关系，逻辑元素可以是逻辑层、功能子系统、模块。</p>
+<p><img src="http://otqvaruzt.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180417150210.jpg" alt="image"></p>
+<h4 id="物理架构"><a href="#物理架构" class="headerlink" title="物理架构"></a>物理架构</h4><p>展示模块间的部署逻辑，数据如何产生、哪块计算、怎么存储、共享等在计算机中的情况。</p>
+<p><img src="http://otqvaruzt.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180417150345.jpg" alt="image"></p>
+<p>这里暂时先列出概念，架构设计之初避免涉及太多具体的技术细节，需要看透需求，寻找出实现的难点、以质量还是时间优先。</p>
+<h3 id="5视图法"><a href="#5视图法" class="headerlink" title="5视图法"></a>5视图法</h3><ul>
+<li>逻辑架构</li>
+<li>物理架构</li>
+<li>数据架构</li>
+<li>开发架构</li>
+<li>运行架构</li>
+</ul>
+<p><img src="http://otqvaruzt.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180417150554.jpg" alt="image"></p>
+<p>面对不同的角色需要用不同的思维来表达，对领导汇报用业务图而不能讲技术架构，对开发则可讲具体开发架构，对运维讲运行架构、物理架构，因此需要不同的架构设计来表达。</p>
+<h4 id="逻辑架构-1"><a href="#逻辑架构-1" class="headerlink" title="逻辑架构"></a>逻辑架构</h4><p>逻辑架构= 模块划分+接口定义（统一接口规范）+领域模型</p>
+<h4 id="物理架构-1"><a href="#物理架构-1" class="headerlink" title="物理架构"></a>物理架构</h4><p>物理架构=硬件分布+软件部署+方案优化（可伸缩性、高性能、易维护性，监控）</p>
+<p>物理架构，更关注的系统、网络、服务器等基础设施。例如：如何通过服务器部署和配置网络环境，来实现应用程序的“可伸缩性、高可用性”。或者举一个实际的例子，如何通过设计基础设施的架构，来保障网站能支持同时10W人在线、7*24小时提供服务，当超过10W人或者低于10W人在线时，可以很方便的调整部署架构来支撑。</p>
+<h4 id="数据架构"><a href="#数据架构" class="headerlink" title="数据架构"></a>数据架构</h4><p>数据架构=存储方式+数据分布</p>
+<p>数据架构，更关注的是数据持久化和存储层面的问题，也可能会包括数据的分布、复制、同步等问题。更贴切来讲，如何选择需要的关系型数据库、流行的NOSQL，如何保障数据存储层面的性能、高可用性、灾备等等。很多时候，和物理架构是有紧密联系的，但它更关注数据存储层面的，物理架构更关注整个基础设施部署层面。</p>
+<h4 id="开发架构"><a href="#开发架构" class="headerlink" title="开发架构"></a>开发架构</h4><p>开发架构=技术选型+文件划分+编译关系（模块依赖关系）</p>
+<p>开发架构则更关注程序包，不仅仅是我们自己写的程序，还包括应用程序依赖的SDK、第三方类库、中间价等。尤其是像目前主流的Java、.NET等依靠虚拟机的语言和平台，以及主流的基于数据库的应用，都会比较关注。和逻辑架构有紧密的关联。</p>
+<h4 id="运行架构"><a href="#运行架构" class="headerlink" title="运行架构"></a>运行架构</h4><p>运行架构=物理架构+数据流的控制（系统运行中的数据流向关系）</p>
+<p>顾名思义，更关注的是应用程序运行中可能出现的一些问题。例如并发带来的问题，比较常见的“线程同步”问题、死锁问题、对象创建和销毁（生命周期管理）问题等等。开发架构，更关注的是飞机起飞之前的一些准备工作，在静止状态下就能规划好做好的，而运行架构，更多考虑的是飞机起飞之后可能发生的一些问题。</p>
+<h3 id="实现架构设计的6个步骤"><a href="#实现架构设计的6个步骤" class="headerlink" title="实现架构设计的6个步骤"></a>实现架构设计的6个步骤</h3><h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><p>根据系统使用人、客户等收集而来的业务实现的背景要求组成的原始需求文档分析，包括了功能要求、质量（性能要求）、约束（时间、预算、可行性分析、风险评估、是否需要对接三方）。这里要输出一份整理过后的需求文档，包含了要做什么（功能范围、非功能性需求），能不能做，能做到的前提要求和要面临的问题，怎么做（进入系统分析实现阶段）。</p>
+<h4 id="确定关键需求"><a href="#确定关键需求" class="headerlink" title="确定关键需求"></a>确定关键需求</h4><p>不仅要对功能需求（如用例）进行筛选，还要对非功能需求进行权衡，最终确定对架构起关键作用的需求。如需求是以高性能并发度为关键还是以可扩展性为要求或同时满足，因为考虑到成本、上线时间和现有系统的影响会舍弃一部分需求，需要确定关键需求：核心功能、高风险功能。</p>
+<h4 id="概念架构设计"><a href="#概念架构设计" class="headerlink" title="概念架构设计"></a>概念架构设计</h4><p>1个决定4个选型：决定如何划分顶级子系统；架构风格选型（C/S还是B/S架构）；开发技术选型（java）；集成技术选型（API）；二次开发技术选型（API）。</p>
+<h4 id="细化架构设计"><a href="#细化架构设计" class="headerlink" title="细化架构设计"></a>细化架构设计</h4><p>5视图法：分别从逻辑架构、物理架构、数据架构、开发架构、运行架构进行设计，每一块的关注点不一样，可细化粗粒度。</p>
+<h4 id="领域建模"><a href="#领域建模" class="headerlink" title="领域建模"></a>领域建模</h4><p>领域建模的精髓是 业务决定功能，功能决定模型。将需求业务转化为抽象的模型对象之间的流转关系。</p>
+<p>常用的表达方式是类图 表达模型之间的关系，听得最多的是“建模”。模型的建立也是逐步完善的，还包含了状态（流程图）、特性要求等文字说明。</p>
+<p>关于如何领域建模 有专门的 领域驱动设计 方面的书可以参考。</p>
+<h4 id="架构验证"><a href="#架构验证" class="headerlink" title="架构验证"></a>架构验证</h4><p>可快速开发一个统一框架（一个原型、一个技术难点）来贯彻架构的设计，再对原型进行测试评审 再对架构进行补充。 </p>
+<p>最后可以总结为可以用5视图法从各方面来描述系统的架构，然后用6步骤来描述怎么实现架构。不过现在还流行一种就是将业务逻辑与物理架构放一起 忽略其中的实现细节。 </p>
+<p>软件架构就是实用而且优雅的设计，它不在于分多少层，或者应用了多少种设计模式/架构模式等。它应该是以满足实现用户需求为前提，以开发人员普遍可接受为根本的，而且要符合系统特性和业务发展需要的，从软件设计的角度，能够达到层次清晰、可维护、可重用、可扩展…就非常优秀了，无需刻意去纠结分了多少层，是否使用了什么模式，有多么抽象等。以面向对象设计为例，基本目标是“高内聚、低耦合”，为此我们可能会遵循一些常见的设计原则（例如经典的SOLID设计原则）。</p>
+<p>通常我们所说的模式，其实又分为很多种，并不是仅仅指的是“设计模式”（设计模式也有千千万，并不是只有常见的GOF 23种设计模式）。通常包括：企业架构模式、设计模式、SOA模式、企业集成模式等等。</p>
+<p>强调一下，架构要讲求“实用”，而且开发人员普遍可接受，要符合现状的。否则，再“优雅”的设计，都会沦为高成本的“花架子”，生搬硬套和过度设计只会让项目“流产”。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>扫一扫添加微信好友~~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.jpg" alt="毛翔龙 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/架构/" rel="tag"><i class="fa fa-tag"></i> 架构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/16/java中的锁/" rel="next" title="java中的锁">
+                <i class="fa fa-chevron-left"></i> java中的锁
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/08/使用CountDownLatch进行压力测试/" rel="prev" title="使用CountDownLatch进行压力测试">
+                使用CountDownLatch进行压力测试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="毛翔龙" />
+          <p class="site-author-name" itemprop="name">毛翔龙</p>
+           
+              <p class="site-description motion-element" itemprop="description">所谓人生 便是取决于遇见谁</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#导论"><span class="nav-number">1.</span> <span class="nav-text">导论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑架构和物理架构视图"><span class="nav-number"></span> <span class="nav-text">逻辑架构和物理架构视图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑架构"><span class="nav-number">1.</span> <span class="nav-text">逻辑架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#物理架构"><span class="nav-number">2.</span> <span class="nav-text">物理架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5视图法"><span class="nav-number"></span> <span class="nav-text">5视图法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑架构-1"><span class="nav-number">1.</span> <span class="nav-text">逻辑架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#物理架构-1"><span class="nav-number">2.</span> <span class="nav-text">物理架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据架构"><span class="nav-number">3.</span> <span class="nav-text">数据架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开发架构"><span class="nav-number">4.</span> <span class="nav-text">开发架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行架构"><span class="nav-number">5.</span> <span class="nav-text">运行架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现架构设计的6个步骤"><span class="nav-number"></span> <span class="nav-text">实现架构设计的6个步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#需求分析"><span class="nav-number">1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确定关键需求"><span class="nav-number">2.</span> <span class="nav-text">确定关键需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概念架构设计"><span class="nav-number">3.</span> <span class="nav-text">概念架构设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#细化架构设计"><span class="nav-number">4.</span> <span class="nav-text">细化架构设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#领域建模"><span class="nav-number">5.</span> <span class="nav-text">领域建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#架构验证"><span class="nav-number">6.</span> <span class="nav-text">架构验证</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">毛翔龙</span>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>
