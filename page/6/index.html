@@ -344,7 +344,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2017/07/28/模板方法模式/">
+    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2017/07/28/说说concurrentHashMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="毛翔龙">
@@ -363,7 +363,159 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/28/模板方法模式/" itemprop="url">模板方法模式</a></h1>
+                <a class="post-title-link" href="/2017/07/28/说说concurrentHashMap/" itemprop="url">concurrentHashMap源码阅读记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-28T00:00:00+08:00">
+                2017-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          一、导论这些天一直在看关于多线程和高并发的书籍，也对jdk中的并发措施了解了些许，看到concurrentHashMap的时候感觉知识点很乱，有必要写篇博客整理记录一下。
+当资源在多线程下共享时会产生一些逻辑问题，这个时候类或者方法会产生不符合正常逻辑的结果，则不是线程安全的。纵观jdk的版本更新，
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/28/说说concurrentHashMap/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2017/07/28/装饰器模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="毛翔龙">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="龙龙的笔记 | 越努力越幸运">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/28/装饰器模式/" itemprop="url">装饰模式</a></h1>
         
 
         <div class="post-meta">
@@ -434,12 +586,12 @@
       
         
           
-          一、什么是模板方法模式　　概念：定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。
-　　通俗的讲，模板方法模式是通过把不变行为搬到超类，去除子类里面的重复代码提现它的优势，它提供了一个很好的代码复用平台。当不可变和可变的方法
+          一、什么是装饰模式　　概念：动态的给一个对象添加一些额外的功能。就增加功能来说，装饰模式比生成自子类更加的灵活。
+　　举个例子，笔者自己以前喜欢吃手抓饼。每天都要去十字路口大爷那里买手抓饼，但是大爷卖的手抓饼有大份，小份等等，还有各种口味的配料添加。比如我比较喜欢变态辣，喜欢加火腿，喜欢加鸡蛋，所以
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/28/模板方法模式/#more" rel="contents">
+            <a class="btn" href="/2017/07/28/装饰器模式/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -583,158 +735,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/28/浅谈java垃圾回收机制/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2017/07/28/说说concurrentHashMap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="毛翔龙">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="龙龙的笔记 | 越努力越幸运">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/28/说说concurrentHashMap/" itemprop="url">concurrentHashMap源码阅读记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-28T00:00:00+08:00">
-                2017-07-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/源码/" itemprop="url" rel="index">
-                    <span itemprop="name">源码</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          一、导论这些天一直在看关于多线程和高并发的书籍，也对jdk中的并发措施了解了些许，看到concurrentHashMap的时候感觉知识点很乱，有必要写篇博客整理记录一下。
-当资源在多线程下共享时会产生一些逻辑问题，这个时候类或者方法会产生不符合正常逻辑的结果，则不是线程安全的。纵观jdk的版本更新，
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/28/说说concurrentHashMap/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -933,7 +933,7 @@ jvm是如何加载这些Class文件的？jvm加载一个Class文件需要哪些�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2017/07/28/代理模式/">
+    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2017/07/28/jvm中的内存分配/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="毛翔龙">
@@ -952,7 +952,7 @@ jvm是如何加载这些Class文件的？jvm加载一个Class文件需要哪些�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/28/代理模式/" itemprop="url">代理模式</a></h1>
+                <a class="post-title-link" href="/2017/07/28/jvm中的内存分配/" itemprop="url">jvm中的内存分配</a></h1>
         
 
         <div class="post-meta">
@@ -987,8 +987,8 @@ jvm是如何加载这些Class文件的？jvm加载一个Class文件需要哪些�
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/虚拟机/" itemprop="url" rel="index">
+                    <span itemprop="name">虚拟机</span>
                   </a>
                 </span>
 
@@ -1023,12 +1023,11 @@ jvm是如何加载这些Class文件的？jvm加载一个Class文件需要哪些�
       
         
           
-          一、什么是代理模式（Porxy）　　概念：代理模式就是为其他对象提供一种代理以控制对这个对象的访问。
-　　现实生活中也有很多行为吻合代理模式。比如店外卖，客户在APP上下单后，店长会接单。这个时候店长可以选择自己去送这份外卖，也可以委托送餐员代理店长去送这份外卖。当然店长是可以自己送，但店长送了外卖
+          一、导论　　java技术体系中所提到的内存自动化管理归根结底就是内存的分配与回收两个问题，之前已经和大家谈过java回收的相关知识，今天来和大家聊聊java对象的在内存中的分配。通俗的讲，对象的内存分配就是在堆上的分配，对象主要分配在新生代的Eden上（关于对象在内存上的分代在垃圾回收中会补上，想了
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/28/代理模式/#more" rel="contents">
+            <a class="btn" href="/2017/07/28/jvm中的内存分配/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1115,7 +1114,7 @@ jvm是如何加载这些Class文件的？jvm加载一个Class文件需要哪些�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1126,7 +1125,7 @@ jvm是如何加载这些Class文件的？jvm加载一个Class文件需要哪些�
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1137,7 +1136,7 @@ jvm是如何加载这些Class文件的？jvm加载一个Class文件需要哪些�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
