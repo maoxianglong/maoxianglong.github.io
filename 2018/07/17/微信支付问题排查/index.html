@@ -108,7 +108,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hello" />
+  <meta name="keywords" content="支付," />
 
 
 
@@ -124,16 +124,24 @@
 
 
 
-<meta name="description" content="记录是一种习惯">
-<meta property="og:type" content="website">
-<meta property="og:title" content="龙龙的笔记 | 越努力越幸运">
-<meta property="og:url" content="http://maoxianglong.github.io/categories/问题解决/index.html">
+<meta name="description" content="问题描述今天运营小哥哥发来一个问题订单说是用户钱已经支付过了，但是咱们这边的状态还是待支付状态。我问他是哪个支付渠道，他说微信，我就知道又要填坑了。从接触支付开始微信支付的问题就没有断过，虽然阿里文档写的一般但人家API确实做得不错，看微信一个支付通知还他妈是XML格式，你弄个json不好吗。。。 言归正传，就是用户付了钱，咱们状态没有同步更新，微信服务器状态是支付成功，咱们这边是未支付，后续的业">
+<meta name="keywords" content="支付">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信支付问题排查">
+<meta property="og:url" content="http://maoxianglong.github.io/2018/07/17/微信支付问题排查/index.html">
 <meta property="og:site_name" content="龙龙的笔记 | 越努力越幸运">
-<meta property="og:description" content="记录是一种习惯">
+<meta property="og:description" content="问题描述今天运营小哥哥发来一个问题订单说是用户钱已经支付过了，但是咱们这边的状态还是待支付状态。我问他是哪个支付渠道，他说微信，我就知道又要填坑了。从接触支付开始微信支付的问题就没有断过，虽然阿里文档写的一般但人家API确实做得不错，看微信一个支付通知还他妈是XML格式，你弄个json不好吗。。。 言归正传，就是用户付了钱，咱们状态没有同步更新，微信服务器状态是支付成功，咱们这边是未支付，后续的业">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://pay.weixin.qq.com/wiki/doc/api/img/chapter8_3_1.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/7292cee32684bf2bb00dd92d82e3843.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/20180717-02.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/1070717-03.png">
+<meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/20170717-04.png">
+<meta property="og:updated_time" content="2018-10-26T12:45:22.761Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="龙龙的笔记 | 越努力越幸运">
-<meta name="twitter:description" content="记录是一种习惯">
+<meta name="twitter:title" content="微信支付问题排查">
+<meta name="twitter:description" content="问题描述今天运营小哥哥发来一个问题订单说是用户钱已经支付过了，但是咱们这边的状态还是待支付状态。我问他是哪个支付渠道，他说微信，我就知道又要填坑了。从接触支付开始微信支付的问题就没有断过，虽然阿里文档写的一般但人家API确实做得不错，看微信一个支付通知还他妈是XML格式，你弄个json不好吗。。。 言归正传，就是用户付了钱，咱们状态没有同步更新，微信服务器状态是支付成功，咱们这边是未支付，后续的业">
+<meta name="twitter:image" content="https://pay.weixin.qq.com/wiki/doc/api/img/chapter8_3_1.png">
 
 
 
@@ -161,13 +169,13 @@
 
 
 
-  <link rel="canonical" href="http://maoxianglong.github.io/categories/问题解决/"/>
+  <link rel="canonical" href="http://maoxianglong.github.io/2018/07/17/微信支付问题排查/"/>
 
 
 
 
 
-  <title>分类: 问题解决 | 龙龙的笔记 | 越努力越幸运</title>
+  <title>微信支付问题排查 | 龙龙的笔记 | 越努力越幸运</title>
   
 
 
@@ -192,7 +200,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 	
 	<a href="https://github.com/maoxianglong"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
@@ -332,45 +340,229 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h1>问题解决<small>分类</small>
-      </h1>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/21/关于maven引用依赖报错/" itemprop="url">
-              
-                <span itemprop="name">关于maven引用依赖报错</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-21T00:00:00+08:00"
-              content="2017-08-21" >
-          08-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://maoxianglong.github.io/2018/07/17/微信支付问题排查/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="毛翔龙">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="龙龙的笔记 | 越努力越幸运">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信支付问题排查</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T00:00:00+08:00">
+                2018-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/第三方支付/" itemprop="url" rel="index">
+                    <span itemprop="name">第三方支付</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>今天运营小哥哥发来一个问题订单说是用户钱已经支付过了，但是咱们这边的状态还是待支付状态。我问他是哪个支付渠道，他说微信，我就知道又要填坑了。从接触支付开始微信支付的问题就没有断过，虽然阿里文档写的一般但人家API确实做得不错，看微信一个支付通知还他妈是XML格式，你弄个json不好吗。。。</p>
+<p>言归正传，就是用户付了钱，咱们状态没有同步更新，微信服务器状态是支付成功，咱们这边是未支付，后续的业务又是以咱们的状态为准的，所以所有的后续业务都无法进行了。这种情况要么手动给用户把钱退掉，要么手动将状态改为支付成功。</p>
+<p>说重试的老哥听我往下讲，因为微信的签名方式比较佛性，他是先将业务参数和verify key拼接为字符串之后再使用MD5加密之后给过来的。然后他给你sign的时候比较自我，就它觉得该给你那些就是那些，也不管你这边Object是否有对应参数去接受，反正就硬塞你。那既然参数对不上，他给过来的签名和咱们自己解析出来的参数是必然对不上的，那这样就算你重试一万遍也是这样，签名验不过，状态就同步不了。</p>
+<h4 id="排查过程"><a href="#排查过程" class="headerlink" title="排查过程"></a>排查过程</h4><h5 id="微信支付流程"><a href="#微信支付流程" class="headerlink" title="微信支付流程"></a>微信支付流程</h5><p>从官网上捞下来一张微信APP支付的流程图。问题出现在第15步，收到通知但是验签失败。<br><img src="https://pay.weixin.qq.com/wiki/doc/api/img/chapter8_3_1.png" alt="image"></p>
+<h5 id="很烦的问题排查过程"><a href="#很烦的问题排查过程" class="headerlink" title="很烦的问题排查过程"></a>很烦的问题排查过程</h5><p>因为查询日志是微信最后一步通知支付状态的时候会将他使用MD5加密的签名（已无力吐槽为什么要用MD5）给过来，然后这个参数就是验不过，很烦。<br><img src="http://otqvaruzt.bkt.clouddn.com/7292cee32684bf2bb00dd92d82e3843.png" alt="image"></p>
+<p>然后我检查了参数，没有发现异常，并且还和那个验签成功的参数做了对比，也没有发现问题，然后还是不死心又做了本地Junit模拟签名验签，也符合预期。<br><img src="http://otqvaruzt.bkt.clouddn.com/20180717-02.png" alt="image"><br>可以看到MD5处理之后的数据和解析之后的签名数据不一样，很奇怪，参数都是我复制粘贴的，为什么会不一致。</p>
+<p>借下来我又去翻看日志看到了微信通知过来的原始XML数据，坑就在这里。还要再吐槽一遍，为什么要用XML，为什么不用json。</p>
+<p><img src="http://otqvaruzt.bkt.clouddn.com/1070717-03.png" alt="image"></p>
+<p>能看到微信通知的是SUCCESS，说明确实是支付成功了，确实也收到用户的money了，可恨的是这四个字段是什么鬼，查了<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_7&amp;index=3" target="_blank" rel="noopener">微信文档</a>之后才知道是用户使用了代金券，即类似支付宝鼓励奖之类的玩意。</p>
+<p>微信生成签名的时候把这四个字段加进去了，但是我们这边貌似没有验签的时候压根就没有用上这些玩意。申请微信支付的就限制了用户不能使用微信优惠，文档上也标识的非必传，所以就没有添加字段接收，那自然签名就不一样了。微信用了18个字段生成的签名，但是我们是用14个字段去验签，再怎么重试都验不过，结果都一样。</p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>然后我把这四个参数加了上去，然后再去模拟验签就没有问题了。<br><img src="http://otqvaruzt.bkt.clouddn.com/20170717-04.png" alt="image"></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在对接三方支付的时候技术和商务一定要一致，像能不能用优惠券这种在申请的时候就应该同步好，这样对接的时候这些不必要的参数就算不加也不会有问题，当然最好的解决方案肯定是做成可配置的，这样解决问题只是一种quick fix。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>扫一扫添加微信好友~~</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.jpg" alt="毛翔龙 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/支付/" rel="tag"><i class="fa fa-tag"></i> 支付</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/14/快速搭建SpringBoot项目/" rel="next" title="快速搭建SpringBoot项目">
+                <i class="fa fa-chevron-left"></i> 快速搭建SpringBoot项目
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/26/关于微信退款报certificate not match的问题复盘/" rel="prev" title="关于微信退款报certificate not match的问题复盘">
+                关于微信退款报certificate not match的问题复盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -378,6 +570,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
 
         </div>
         
@@ -398,8 +596,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -461,6 +668,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#排查过程"><span class="nav-number">2.</span> <span class="nav-text">排查过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#微信支付流程"><span class="nav-number">2.1.</span> <span class="nav-text">微信支付流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#很烦的问题排查过程"><span class="nav-number">2.2.</span> <span class="nav-text">很烦的问题排查过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决"><span class="nav-number">3.</span> <span class="nav-text">解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -604,10 +827,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
