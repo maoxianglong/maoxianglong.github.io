@@ -134,7 +134,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/image102601.png">
 <meta property="og:image" content="http://otqvaruzt.bkt.clouddn.com/image102602.png">
-<meta property="og:updated_time" content="2018-10-26T12:45:22.358Z">
+<meta property="og:updated_time" content="2018-10-26T12:57:47.849Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于微信退款报certificate not match的问题复盘">
 <meta name="twitter:description" content="问题描述今天邮箱突然收到提示很多用户退款失败的邮件，心想前几天才刚给友商配置了微信支付渠道，且已经在正式环境部署，会不会是因为这个改动导致。捞了一笔订单检索日志，发现是请求微信退款接口报了certificate not match异常。 找原因查看微信的app支付里面的申请退款接口，原来请求微信的申请退款接口是双向认证，是需要验证证书的。因为笔者也是第一次对接第三方支付，对微信的api也不熟（微信">
@@ -439,7 +439,7 @@
 
       
         <h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>今天邮箱突然收到提示很多用户退款失败的邮件，心想前几天才刚给友商配置了微信支付渠道，且已经在正式环境部署，会不会是因为这个改动导致。<br>捞了一笔订单检索日志，发现是请求微信退款接口报了<em>certificate not match</em>异常。<br><img src="http://otqvaruzt.bkt.clouddn.com/image102601.png" alt="image"></p>
-<h4 id="找原因"><a href="#找原因" class="headerlink" title="找原因"></a>找原因</h4><p>查看微信的app支付里面的<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_4&amp;index=6" target="_blank" rel="noopener">申请退款接口</a>，原来请求微信的申请退款接口是双向认证，是需要验证证书的。因为笔者也是第一次对接第三方支付，对微信的api也不熟（微信的预支付接口和付款接口都不需要验证证书T.T）。现在想想觉得也没啥不合理，你付钱给别人，别人肯定照单全收，你想找别人要钱，别人当然要验证你的证书了。哈哈<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 解决</span><br><span class="line">将友商提供的证书配置到工程中就好啦</span><br></pre></td></tr></table></figure></p>
+<h4 id="找原因"><a href="#找原因" class="headerlink" title="找原因"></a>找原因</h4><p>查看微信的app支付里面的<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_4&amp;index=6" target="_blank" rel="noopener">申请退款接口</a>，原来请求微信的申请退款接口是双向认证，是需要验证证书的。因为笔者也是第一次对接第三方支付，对微信的api也不熟（微信的预支付接口和付款接口都不需要验证证书T.T）。现在想想觉得也没啥不合理，你付钱给别人，别人肯定照单全收，你想找别人要钱，别人当然要验证你的证书了。哈哈<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 解决</span><br><span class="line"></span><br><span class="line">将友商提供的证书配置到工程中就好啦</span><br></pre></td></tr></table></figure></p>
 <p><img src="http://otqvaruzt.bkt.clouddn.com/image102602.png" alt="image"></p>
 <h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>熟读文档，理解需求，提前沟通，无坚不摧。</p>
 
